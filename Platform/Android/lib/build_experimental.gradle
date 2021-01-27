@@ -7,8 +7,8 @@ def ndk_experimental = (rootProject.hasProperty("readium_ndk_experimental") && r
 
 model {
     android {
-        compileSdkVersion = 26
-        buildToolsVersion = "27.0.3"
+        compileSdkVersion = 30
+        buildToolsVersion = "30.0.3"
 
         defaultConfig {
 
@@ -16,10 +16,10 @@ model {
             // applicationId = "org.readium.sdk.android"
 
             // manifest/uses-sdk@android:minSdkVersion attribute in src/main/AndroidManifest.xml
-            minSdkVersion.apiLevel = 19
+            minSdkVersion.apiLevel = 17
 
             // manifest/uses-sdk@android:targetSdkVersion attribute in src/main/AndroidManifest.xml
-            targetSdkVersion.apiLevel = 26
+            targetSdkVersion.apiLevel = 30
 
             // manifest@android:versionCode attribute in src/main/AndroidManifest.xml
             versionCode 30
@@ -32,7 +32,7 @@ model {
             main {
                 java {
                     source {
-                        srcDirs = [ './src/main/java' ]
+                        srcDirs = ['./src/main/java']
                     }
                 }
 
@@ -53,20 +53,21 @@ model {
             }
         }
 
-        productFlavors {
-            if (!ndk_skipARM)
-                create("arm") {
-                    ndk.with {
-                        abiFilters.add("armeabi-v7a")
-                    }
-                }
+        flavorDimensions "eabi"
 
-            if (!ndk_skipX86)
+        productFlavors {
+            create("arm") {
+                ndk.with {
+                    abiFilters.add("armeabi-v7a")
+                }
+            }
+
                 create("x86") {
                     ndk.with {
                         abiFilters.add("x86")
                     }
+                    dimension "eabi"
                 }
+            }
         }
     }
-}

@@ -62,8 +62,8 @@ model {
 //    }
 
     android {
-        compileSdkVersion = 26
-        buildToolsVersion = "27.0.3"
+        compileSdkVersion = 30
+        buildToolsVersion = "30.0.3"
         sources {
             main {
                 jni {
@@ -181,8 +181,9 @@ model {
             }
         } //buildTypes
 
+        flavorDimensions "eabi"
+
         productFlavors {
-            if (!ndk_skipARM)
                 create("arm") {
                     ndk.with {
                         abiFilters.add("armeabi-v7a")
@@ -194,9 +195,9 @@ model {
                         cppFlags.add("-I${ndkDirIncludesASM_ARM}".toString())
                         CFlags.add("-I${ndkDirIncludesASM_ARM}".toString())
                     }
+                    dimension "eabi"
                 }
 
-            if (!ndk_skipX86)
                 create("x86") {
                     ndk.with {
                         abiFilters.add("x86")
@@ -208,6 +209,7 @@ model {
                         cppFlags.add("-I${ndkDirIncludesASM_X86}".toString())
                         CFlags.add("-I${ndkDirIncludesASM_X86}".toString())
                     }
+                    dimension "eabi"
                 }
         } //productFlavors
     } //android
